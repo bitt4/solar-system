@@ -1,6 +1,6 @@
 var scene = new THREE.Scene();
 
-var aspect_ratio = window.innerWidth / window.innerHeight;						//set window dimensions
+var aspect_ratio = window.innerWidth / window.innerHeight;				//set window dimensions
 var above_cam = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 1e6);			//set camera that sees solar system from above
 above_cam.position.z = 1000;
 scene.add(above_cam);
@@ -42,7 +42,7 @@ for(var i = 0; i < 8; i++){			//add all planets to planets array
 
 var stars = new THREE.Geometry();
 
-while(stars.vertices.length < 1e4){							//randomly generate stars
+while(stars.vertices.length < 1e4){						//randomly generate stars
 	var lat = Math.PI * Math.random() - Math.PI/2;
 	var lon = 2*Math.PI * Math.random();
 
@@ -57,9 +57,9 @@ var star_stuff = new THREE.ParticleBasicMaterial({size: 500});
 var star_system = new THREE.ParticleSystem(stars, star_stuff);
 scene.add(star_system);
 
-orbits = [];												//orbit lines are saved here
+orbits = [];									//orbit lines are saved here
 
-for(var i = 0; i < 8; i++){									//generate orbits
+for(var i = 0; i < 8; i++){							//generate orbits
 	var orbit = new THREE.Line(
 		new THREE.CircleGeometry(100+i*80, 90),
 		new THREE.MeshBasicMaterial({
@@ -74,9 +74,9 @@ for(var i = 0; i < 8; i++){									//generate orbits
 	scene.add(orbit);
 }
 
-var cameras = []											//cameras for each planet are stored here
+var cameras = []								//cameras for each planet are stored here
 
-for(var i = 0; i < 8; i++){									//generate cameras
+for(var i = 0; i < 8; i++){							//generate cameras
 	var Camera = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 1e6);
 	scene.add(Camera);
 	cameras.push(Camera);
@@ -85,18 +85,18 @@ for(var i = 0; i < 8; i++){									//generate cameras
 var sun_cam = new THREE.PerspectiveCamera(75, aspect_ratio, 1, 1e6);		//set camera for sun separately
 scene.add(sun_cam);
 
-var camera = above_cam;														//set default camera to above camera
+var camera = above_cam;								//set default camera to above camera
 
 var clock = new THREE.Clock();
 
-function animate(){															//animation function, renders scrren every frame
+function animate(){								//animation function, renders scrren every frame
 	requestAnimationFrame(animate);
 	
 	var time = clock.getElapsedTime();
 	
 	var relativeCirculationTime = [2.07555, 0.81168, 0.5, 0.26315, 0.04166, 0.01694, 0.00595, 0.00303]; //I hope i got these right
 	
-	for(var i = 0; i < 8; i++){												//set planets positions
+	for(var i = 0; i < 8; i++){								//set planets positions
 		var angle = time * relativeCirculationTime[i];
 		planets[i].position.set((100+ i*80)*Math.cos(angle), (100 + i*80)*Math.sin(angle), 0);
 	}
@@ -107,7 +107,7 @@ function animate(){															//animation function, renders scrren every fra
 		sun_cam.rotation.set(Math.PI/2, -sun_angle, 0);
 		sun_cam.position.set(planets[2].position.x, planets[2].position.y, 22);
 		
-	for(var i = 0; i < 8; i++){												//set position and rotation for planet cameras
+	for(var i = 0; i < 8; i++){								//set position and rotation for planet cameras
 		y_diff = planets[i].position.y - planets[2].position.y,
 		x_diff = planets[i].position.x - planets[2].position.x,
 		angle_a = Math.atan2(x_diff, y_diff);
@@ -115,35 +115,35 @@ function animate(){															//animation function, renders scrren every fra
 		cameras[i].position.set(planets[2].position.x, planets[2].position.y, 22);
 	}
 	
-	renderer.render(scene, camera);											//render screen
+	renderer.render(scene, camera);								//render screen
 }
 
 animate();
 	
 document.addEventListener("keydown", function(event){						//here are defined keybinds for setting camera controls
-	var code = event.keyCode;												//
-                                                                            // A	above camera
-	switch(code){                                                           // O	toggle orbits
-		case 65:                                                            // 
-			camera = above_cam;                                             // key 1	mercury
-			break;                                                          // key 2	venus
-		case 77:                                                            // key 3	'nothing'
-		case 49:                                                            // key 4	mars
-			camera = cameras[0];                                            // key 5	jupiter
-			break;                                                          // key 6	saturn
-		case 86:															// key 7	uranus
-		case 50:                                                            // key 8	neptune
-			camera = cameras[1];                                            // key 0	sun
-			break;                                                          // 
-		case 69:                                                            // alternative keybinds
-		case 52:                                                            // 
-			camera = cameras[3];                                            // M	mercury
-			break;                                                          // V	venus
-		case 74:                                                            // E	mars
-		case 53:                                                            // J	jupiter
-			camera = cameras[4];											// S	saturn
-			break;															// U	uranus
-		case 83:															// N	neptune
+	var code = event.keyCode;								//
+                                                                            			// A		above camera
+	switch(code){                                                           		// O		toggle orbits
+		case 65:                                                            		// 
+			camera = above_cam;                                           		// key 1	mercury
+			break;                                                          	// key 2	venus
+		case 77:                                                            		// key 3	'nothing'
+		case 49:                                                            		// key 4	mars
+			camera = cameras[0];                                            	// key 5	jupiter
+			break;                                                          	// key 6	saturn
+		case 86:									// key 7	uranus
+		case 50:                                                            		// key 8	neptune
+			camera = cameras[1];                                            	// key 0	sun
+			break;                                                          	// 
+		case 69:                                                            		// alternative keybinds
+		case 52:                                                            		// 
+			camera = cameras[3];                                            	// M		mercury
+			break;                                                          	// V		venus
+		case 74:                                                            		// E		mars
+		case 53:                                                            		// J		jupiter
+			camera = cameras[4];							// S		saturn
+			break;									// U		uranus
+		case 83:									// N		neptune
 		case 54:
 			camera = cameras[5];
 			break;
@@ -158,7 +158,7 @@ document.addEventListener("keydown", function(event){						//here are defined ke
 		case 48:
 			camera = sun_cam;
 			break;
-		case 79:															//toggle orbits
+		case 79:									//toggle orbits
 			for(var i = 0; i < orbits.length; i++){
 				orbits[i].material.visible = !orbits[i].material.visible;
 			}
