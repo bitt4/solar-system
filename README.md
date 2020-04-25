@@ -1,6 +1,8 @@
 # Solar system
 Simple javascript solar system made in Three.js
 
+![](images/preview.png)
+
 ## Controls
 ```
 A	above camera
