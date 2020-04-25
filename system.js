@@ -115,6 +115,8 @@ function animate(){								//animation function, renders scrren every frame
 		cameras[i].position.set(planets[2].position.x, planets[2].position.y, 22);
 	}
 	
+	//Yeah, the planets do not revolve around their axis
+	
 	renderer.render(scene, camera);								//render screen
 }
 
